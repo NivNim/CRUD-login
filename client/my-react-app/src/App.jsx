@@ -21,45 +21,7 @@ function App() {
   const [editMode, setEditMode] = useState(false); 
   const [userIdToEdit, setUserIdToEdit] = useState(null); 
 
-  // useEffect(() => {
-  //   fetchAllUsers();
-  // }, []);
 
-
-
-  // const deleteUser = async (userId) => {
-  //   try {
-  //     await axios.delete(`/api/delete/${userId}`);
-  //     fetchAllUsers();
-  //   } catch (error) {
-  //     console.error('Error deleting user:', error);
-  //   }
-  // };
-
-  // const editUser = async () => {
-  //   try {
-  //     await axios.put(`/api/update/${userIdToEdit}`, { name, email, password });
-  //     fetchAllUsers();
-  //     setEditMode(false);
-  //     setUserIdToEdit(null);
-  //     setName('');
-  //     setEmail('');
-  //     setPassword('');
-  //   } catch (error) {
-  //     console.error('Error updating user:', error);
-  //   }
-  // };
-
-
-
-  // const fetchAllUsers = async () => {
-  //   try {
-  //     const response = await axios.get('/api/users');
-  //     setUsers(response.data);
-  //   } catch (error) {
-  //     console.error('Error fetching users:', error);
-  //   }
-  // };
 
   const handleEditClick = (userId) => {
     const userToEdit = users.find(user => user._id === userId);

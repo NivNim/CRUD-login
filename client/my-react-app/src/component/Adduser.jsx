@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from 'react-router-dom';
-import "./AddUser.css"; // Import CSS file for styling
+import "./AddUser.css"; 
 import AlertDialog from "./Dialogue";
 
 const AddUser = () => {
     const [showBox,setShowBox]=useState(false)
   const [newUser, setNewUser] = useState([]);
+  const [id,setId]=useState()
   const [formValues, setFormValues] = useState({
     name: "",
     email: "",
@@ -77,26 +78,28 @@ const AddUser = () => {
   };
 
   const handleEditUser = async (id) => {
-    console.log(id);
     setShowBox(true)
-    try {
-        //         console.log(id,'sdafadfs');
-        //     //   const userToUpdate = newUsers[index];
-            //   const response = await axios.put(`http://localhost:3000/api/updateuser/${id}`, userToUpdate);
-        //     //   console.log(response.data.message);
-        //       // Optionally, update the list of users after successful edit
-        //       // fetchAllUsers();
-            } catch (error) {
-              console.error("Error updating user:", error);
-              alert("Failed to update user. Please try again later.");
-            }
+    setId(id)
   };
 
+const handleClose=()=>{
+    setShowBox(false)
+}
+
+  const handleEditUsers = async (formValue) => {
+    try {
+        const response = await axios.put(`http://localhost:3000/api/updateuser/${id}`, formValue);
+        console.log(response.data.message);
+      } catch (error) {
+        console.error("Error updating user:", error);
+        alert("Failed to update user. Please try again later.");
+      }
+};
   return (
     <div className="center-container">
       <div className="center-content">
         <nav className="navbar">
-            <AlertDialog open={showBox}/>
+            <AlertDialog open={showBox} handleClose={handleClose} handleSubmit={handleEditUsers}/>
           <div className="container">
             <div className="left-nav">
               <Link to="/" className="nav-link">Home</Link>

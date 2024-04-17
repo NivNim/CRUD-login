@@ -6,60 +6,80 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-export default function EditDialog(props) {
-  const [open, setOpen] = React.useState(false);
-  const [editedUser, setEditedUser] = React.useState({}); // Initialize as an empty object
+export default function AlertDialog(props) {
 
-  React.useEffect(() => {
-    setEditedUser(props.userData || {}); // Update when props.userData changes and handle undefined case
-  }, [props.userData]);
+  const [formValue,setFormValue]=React.useState([])
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  React.useEffect(()=>{
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
+  },[formValue])
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setEditedUser((prevUser) => ({ ...prevUser, [name]: value }));
+    setFormValue({ ...formValue, [name]: value });
+    console.log(formValue)
   };
 
-  const handleEdit = () => {
-    // Call the edit function and pass the edited user data
-    props.handleEdit(editedUser);
-    handleClose();
-  };
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    props.handleSubmit(formValue);
+    props.handleClose();
+  };
   return (
     <React.Fragment>
-      <Button onClick={handleClickOpen}>Edit</Button>
+
       <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="edit-dialog-title"
-        aria-describedby="edit-dialog-description"
-      >
-        <DialogTitle id="edit-dialog-title">Edit User</DialogTitle>
+        open={props.open}
+        onClose={props.handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      > <form onSubmit={handleSubmit}>
+ <DialogTitle id="edit-dialog-title">Edit User</DialogTitle>
         <DialogContent>
           <DialogContentText id="edit-dialog-description">
+           
             <input
               type="text"
               name="name"
-              value={editedUser.name || ''}
+              value={formValue.name}
               onChange={handleChange}
+              placeholder="Name"
+              className="edit-input"
             />
-            {/* Other input fields for editing user data */}
+            <input
+              type="email"
+              name="email"
+              value={formValue.email}
+              onChange={handleChange}
+              placeholder="Email"
+              className="edit-input"
+            />
+            <input
+              type="text"
+              name="mobile"
+              value={formValue.mobile}
+              onChange={handleChange}
+              placeholder="Number"
+              className="edit-input"
+            />
+            <input
+              type="password"
+              name="password"
+              value={formValue.password}
+              onChange={handleChange}
+              placeholder="Password"
+              className="edit-input"
+            />
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleEdit} autoFocus>
-            Save
-          </Button>
+          {/* Cancel and Save buttons */}
+          <Button onClick={props.handleClose} variant="outlined">Cancel</Button>
+          <Button 
+        type='submit'
+           variant="contained" autoFocus>Save</Button>
         </DialogActions>
+        </form>
       </Dialog>
     </React.Fragment>
   );
