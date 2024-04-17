@@ -62,16 +62,26 @@ const AddUser = () => {
   };
 
   const handleRemoveUser = async (id) => {
-    try {
-      await axios.delete(`http://localhost:3000/api/deleteUser/${id}`);
-      console.log(`User with id ${id} deleted successfully`);
-      const updatedUsers = newUser.filter(user => user._id !== id);
-      setNewUser(updatedUsers);
-    } catch (error) {
-      console.error("Error deleting user:", error);
-      alert("Failed to delete user. Please try again later.");
+    // Show alert message to confirm deletion
+    const confirmDelete = window.confirm("Are you sure want to delete this user?");
+    
+    // If user confirms deletion
+    if (confirmDelete) {
+      try {
+        // Delete the user
+        await axios.delete(`http://localhost:3000/api/deleteUser/${id}`);
+        console.log(`User with id ${id} deleted successfully`);
+        
+        // Update the list of users after deletion
+        const updatedUsers = newUser.filter(user => user._id !== id);
+        setNewUser(updatedUsers);
+      } catch (error) {
+        console.error("Error deleting user:", error);
+        alert("Failed to delete user. Please try again later.");
+      }
     }
   };
+  
 
   const handleLogout = () => {
     window.location.href = "/";
